@@ -28,3 +28,21 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(tidyverse)
+library(gapminder)
+data("gapminder_unfiltered")
+gapminder_unfiltered %>%
+  group_by(year) %>%
+  filter(lifeExp == max(lifeExp)) %>%
+  ungroup() %>% 
+  select(year, country, lifeExp) %>%
+  arrange(year) ->
+  sumdat
+sumdat
+ggplot(data = sumdat, aes(year, lifeExp)) +
+  geom_point(aes(color = country)) +
+  geom_smooth(method='lm', se = FALSE)
+```
+
